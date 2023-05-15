@@ -6,9 +6,16 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+/* body{
+    width: 100vw;
+} */
 :root{
     --white:white;
     --red:rgb(227, 22, 22);
     --green:rgb(65, 201, 65);
     --grey:rgba(188, 183, 183, 0.509);
+}
+.active{
+    background-color: rgb(52, 194, 90);
+    color: white;
 }

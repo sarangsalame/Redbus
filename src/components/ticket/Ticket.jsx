@@ -6,6 +6,7 @@ import ContextData from "../../store/context-data";
 
 const Ticket = ({ ele, setIsClicked, isClicked }) => {
   const [seatNumber, setSeatNumber] = useState("");
+  // const [gst, setGst]= useState("sdashf560252dfd52")
 
   console.log(ele, "ticket");
   const { setBookBusData } = useContext(ContextData);
@@ -30,7 +31,7 @@ const Ticket = ({ ele, setIsClicked, isClicked }) => {
       >
         <div className="api_data_elements">
           <h4>Bus Name: </h4>
-          {ele.busName}
+          {ele.busName.toUpperCase()}
         </div>
         {console.log(ele)}
         <div className="api_data_elements">
@@ -52,7 +53,7 @@ const Ticket = ({ ele, setIsClicked, isClicked }) => {
       </div>
       <div className="seat_details_container">
         <BusImg />
-        <SeatContainer seatNumber={seatNumber} setSeatNumber={setSeatNumber} />
+        <SeatContainer seatNumber={seatNumber} setSeatNumber={setSeatNumber}  />
         <div className="book_ticket">
           <button onClick={bookTicketHandler}>BOOK TICKET</button>
         </div>

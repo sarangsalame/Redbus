@@ -6,17 +6,30 @@ const ContextData = React.createContext({
   setBookBusData: (data) => {},
   seatNumber:"",
   setseat:(data)=>{},
+  clearSeats: ()=>{}
+  
 });
 
 function ContextProvider(props) {
   const [bookBusData, setBookBusData] = useState([]);
-  const [seatNumber, setSeatNumber]= useState("");
+  const [seatNumber, setSeatNumber]= useState([]);
+  
   function bookBus(data) {
     setBookBusData(data);
   }
 
   function setseat(data){
-    setSeatNumber(data)
+    console.log(data)
+    const existingSeat = seatNumber.find((curr)=>curr===data)
+    if(existingSeat){
+      const newSeats = seatNumber.filter((ele)=>ele!==data)
+      setSeatNumber(newSeats)
+    }else{
+      setSeatNumber([...seatNumber, data])
+    }
+  }
+  function clearSeats(){
+    setSeatNumber([])
   }
 
   return (
@@ -26,6 +39,8 @@ function ContextProvider(props) {
         setBookBusData: bookBus,
         seatNumber,
         setseat,
+        clearSeats
+       
       }}
     >
       {props.children}

@@ -42,14 +42,14 @@
   justify-content: center;
   gap: 10px;
 }
-.seat_container button:hover{
+/* .seat_container button:hover{
   background-color: orange;
   color: white;
-}
+} */
 
-.seat_container button:active {
+/* .seat_container button:active {
   background-color: blue;
-}
+} */
 .seatnum{
   color: white;
   font-size: 20px;

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import "../login/login.css";
 import { useNavigate } from "react-router-dom";
 
-
-const Login = ({ setislogedin }) => {
+const Login = () => {
   const navigate = useNavigate();
 
   const [login, setlogin] = useState({
@@ -11,22 +10,17 @@ const Login = ({ setislogedin }) => {
     pass: "",
   });
   const [err, seterr] = useState(false);
-  const [userArr, setuserarr] = useState([]);
+ 
 
   function handleLogin(e) {
     e.preventDefault();
-    // if (login.email === "" || login.pass == "") {
-    //   seterr(true);
-    // } else {
-    //   seterr(false);
-    //   setuserarr([...userArr, { email: login.email, pass: login.pass }]);
-    //   console.log(userArr);
-    //   localStorage.setItem("user", JSON.stringify(userArr));
-    //   setislogedin(true);
-    // }
-    navigate('/search')
+    if (login.email === "" || login.pass === "") {
+      seterr(true);
+    } else {
+      seterr(false);
+      navigate("/search");
+    }
   }
-
 
   return (
     <div className='login'>
