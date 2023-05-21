@@ -22,6 +22,7 @@ const Search = () => {
   });
   const [busApiData, setBusApiData] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
+  const [searchBtn, setSearchBtn] = useState(false)
 
   const [srcList, setSrcList] = useState([]);
 
@@ -68,6 +69,7 @@ const Search = () => {
 
   const { clearSeats } = useContext(ContextData);
   const checkAvailability = (e) => {
+
     e.preventDefault();
     clearSeats();
     if (
@@ -95,6 +97,11 @@ const Search = () => {
     )
       .then((res) => res.json())
       .then((json) => setBusApiData(json));
+    if (busApiData.length < 1) {
+      setSearchBtn(true)
+    } else {
+      setSearchBtn(false)
+    }
   }
 
   function sortByPrice() {
@@ -181,6 +188,7 @@ const Search = () => {
           </div>
         </form>
 
+        {searchBtn && busApiData.length < 1 ? <div className='no_data'>No Bus Available</div> : null}
         {busApiData.length > 0 ? (
           <div className='ul_api'>
 
