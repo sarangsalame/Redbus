@@ -1,9 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { BsArrowLeftRight } from "react-icons/bs";
 import "./search.css";
 import TitleComp from "../title/TitleComp";
 import Ticket from "../ticket/Ticket";
 import ContextData from "../../store/context-data";
+import SelectComp from "../selectComp/SelectComp";
+import InputComp from "../inputComp/InputComp";
 
 
 const Search = () => {
@@ -20,6 +22,19 @@ const Search = () => {
   });
   const [busApiData, setBusApiData] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
+
+  const [srcList, setSrcList] = useState([]);
+
+
+  useEffect(() => {
+    const getSrcList = async () => {
+      const data = await fetch("https://content.newtonschool.co/v1/pr/63b70222af4f30335b4b3b9a/buses")
+      const json = await data.json()
+
+      setSrcList(json)
+    }
+    getSrcList()
+  }, [])
 
 
   // getting source destination
@@ -92,34 +107,24 @@ const Search = () => {
     console.log(busApiData);
   }
 
-  function sortByArivalTime() {
-    let newBusData = busApiData.sort(function (a, b) {
-      console.log(a, b, "from search")
-      if (a.arrivalTime < b.arrivalTime) {
-        return 1;
+  function sortByTime(time) {
+    let newBusData = [...busApiData]
+    newBusData.sort(function (a, b) {
+      if (time === "arrivalTime") {
+        if (a.arrivalTime > b.arrivalTime) return 1;
+        if (a.arrivalTime < b.arrivalTime) return -1;
+        return 0;
       }
-      if (a.arrivalTime > b.arrivalTime) {
-        return -1;
+      if (time === "departureTime") {
+        if (a.departureTime < b.departureTime) return 1;
+        if (a.departureTime > b.departureTime) return -1;
+        return 0;
       }
-      return 0;
     });
     setBusApiData(newBusData);
-    console.log(busApiData);
+
   }
 
-  function sortByDepartureTime() {
-    let newBusData = busApiData.sort(function (a, b) {
-      if (a.departureTime < b.departureTime) {
-        return -1;
-      }
-      if (a.departureTime > b.departureTime) {
-        return 1;
-      }
-      return 0;
-    });
-    setBusApiData(newBusData);
-    console.log(busApiData);
-  }
 
   function selectingSeats(ele) {
     console.log(ele, "elel");
@@ -129,57 +134,52 @@ const Search = () => {
 
 
 
-
   return (
     <>
       <div className='container'>
         <form className='search'>
-          <div className='inp__container'>
-            <span>FROM</span>
-            <input
-              type='text'
-              autoComplete="name"
-              placeholder='Source'
-              value={formData.source}
-              onChange={getSource}
-            />
-            {err.errSrc ? <div className='err__msg'>Please fill input fields</div> : null}
-          </div>
+
+          <InputComp
+            toOrFrom="FROM"
+            element={
+              <SelectComp
+                city="source"
+                updateCity={getSource}
+                formData={formData}
+                srcList={srcList}
+              />
+            }
+            err={err.errSrc} />
+
+          <InputComp
+            element={
+              <button className='switch' onClick={alterInput}>
+                <BsArrowLeftRight fontWeight={600} />
+              </button>
+            }
+            err={false} />
+
+
 
           <div className='inp__container'>
-            <button className='switch' onClick={alterInput}>
-              <BsArrowLeftRight fontWeight={600} />
-            </button>
-          </div>
-          <div className='inp__container'>
             <span>TO</span>
-            <input
-              type='text'
-              autoComplete="name"
-              placeholder='Destination'
-              value={formData.destination}
-              onChange={getDestination}
-            />
+            <SelectComp city="destination" updateCity={getDestination} formData={formData} srcList={srcList} />
           </div>
 
           <div className='inp__container'>
             <span>DATE</span>
             <input type='date' value={formData.date} onChange={getTravelDate} />
           </div>
+
           <div className='inp__container'>
             <button
               className='search__btn'
               type='submit'
-              onClick={checkAvailability}
-            >
+              onClick={checkAvailability}>
               SEARCH BUSES
             </button>
-
-
-
           </div>
         </form>
-
 
         {busApiData.length > 0 ? (
           <div className='ul_api'>
@@ -187,8 +187,16 @@ const Search = () => {
             <div className='sorting'>
               <h4>Sort By:</h4>
               <button onClick={sortByPrice}>Price</button>
-              <button onClick={sortByArivalTime}>Arival</button>
-              <button onClick={sortByDepartureTime}>Departure</button>
+              <button onClick={() => {
+                sortByTime("arrivalTime")
+              }}>
+                Arival
+              </button>
+              <button onClick={() => {
+                sortByTime("departureTime")
+              }}>
+                Departure
+              </button>
             </div>
             <ul>
               {isClicked ? (
@@ -204,11 +212,11 @@ const Search = () => {
                       className='api_data'
                       key={ele.id}
                       onClick={() => {
-                        console.log(ele);
+
                         selectingSeats(ele);
                       }}
                     >
-                      {console.log(isClicked)}
+
 
                       <div className='api__data_element_warpper'>
                         <div className='api_data_elements'>
@@ -238,7 +246,7 @@ const Search = () => {
               )}
             </ul>
           </div>
-        ) : <TitleComp />
+        ) : <TitleComp busApiData={busApiData} />
         }
       </div>
     </>

@@ -5,13 +5,13 @@ import './bookticket.css'
 // import bus from '../../asset/bg.png'
 
 function BookTicket() {
-  const { bookBusData, seatNumber} = useContext(ContextData);
+  const { bookBusData, seatNumber } = useContext(ContextData);
   const navigate = useNavigate();
 
   function backHandler() {
-    navigate("/search");
+    navigate("/");
   }
-  let gstprice = Number(seatNumber.length * bookBusData.ticketPrice*(18/100));
+  let gstprice = Number(seatNumber.length * bookBusData.ticketPrice * (18 / 100));
 
   return (
     <div className="bookticket">
@@ -21,21 +21,19 @@ function BookTicket() {
 
       <div className="ticket_otp">
         <div className="img_section">
-            
+
         </div>
         <div className="ticket_details">
-        <h4>Thanks for Travelling with RedBus</h4>
+          <h4>Thanks for Travelling with RedBus</h4>
           <ul>
             <li>BusName: {bookBusData.busName}</li>
             <li>Arrival Time: {bookBusData.arrivalTime} - Departure Time: {bookBusData.departureTime}</li>
             <li>Seat Number:  {seatNumber.join(", ")}</li>
-            <li>Ticket Price:  {seatNumber.length +" * "+ bookBusData.ticketPrice + "= Rs. " + seatNumber.length*bookBusData.ticketPrice}/-</li>
-            <li>GST 18% :Rs. {(seatNumber.length * bookBusData.ticketPrice)*(18/100)}/- </li>
-            <li>Total Amt: Rs. {Number(seatNumber.length * bookBusData.ticketPrice) + gstprice}/- </li>
-            
-            
+            <li>Ticket Price:  {seatNumber.length + " * " + bookBusData.ticketPrice + "= Rs. " + seatNumber.length * bookBusData.ticketPrice}/-</li>
+            <li>GST 18% :Rs. {parseInt((seatNumber.length * bookBusData.ticketPrice) * (18 / 100))}/- </li>
+            <li>Total Amt: Rs. {parseInt((seatNumber.length * bookBusData.ticketPrice) + gstprice)}/- </li>
           </ul>
-        
+
         </div>
       </div>
     </div>

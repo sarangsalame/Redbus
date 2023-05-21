@@ -3,19 +3,16 @@ import "../styles/App.css";
 import Search from "./search/Search";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import BookTicket from "./bookticket/BookTicket";
-import Login from "./login/Login";
+
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />,
-  },
+
   {
     path: "/bookticket",
     element: <BookTicket />,
   },
   {
-    path: "/search",
+    path: "/",
     element: <Search />,
   }
 ]);

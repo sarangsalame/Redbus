@@ -53,7 +53,7 @@ const Ticket = ({ ele, setIsClicked, isClicked }) => {
       </div>
       <div className="seat_details_container">
         <BusImg />
-        <SeatContainer seatNumber={seatNumber} setSeatNumber={setSeatNumber}  />
+        <SeatContainer seatNumber={seatNumber} setSeatNumber={setSeatNumber} />
         <div className="book_ticket">
           <button onClick={bookTicketHandler}>BOOK TICKET</button>
         </div>
